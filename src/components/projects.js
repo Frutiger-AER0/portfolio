@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const PROJECTS_JSON = '/src/projects.json';
+    const PROJECTS_JSON = '../src/projects.json';
     const listEl = document.getElementById('project-list');
     if (!listEl) return;
 
