@@ -1,12 +1,15 @@
+// javascript
 document.addEventListener('DOMContentLoaded', () => {
-    const PROJECTS_JSON = '/src/projects.json';
+    const PROJECTS_JSON = 'src/projects.json'; // relative path (no leading slash)
     const listEl = document.getElementById('project-list');
     if (!listEl) return;
+
+    console.log('Fetching projects from', PROJECTS_JSON);
 
     // fetch projects and build cards
     fetch(PROJECTS_JSON)
         .then(res => {
-            if (!res.ok) throw new Error('Could not load projects.json');
+            if (!res.ok) throw new Error('Could not load projects.json: ' + res.status);
             return res.json();
         })
         .then(projects => {
@@ -23,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(err);
         });
 
+    function normalizePath(path) {
+        if (!path) return '';
+        return path.replace(/^\/+/, ''); // remove leading slashes
+    }
+
     function createCard(project) {
         const article = document.createElement('article');
         article.className = 'project-card';
@@ -33,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // hero image sits at the top of the card
         const img = document.createElement('img');
         img.className = 'card-hero';
-        img.src = project.image || '';
+        img.src = normalizePath(project.image) || '';
         img.alt = project.name || 'project image';
         img.loading = 'lazy';
         img.onerror = () => { img.style.display = 'none'; };
@@ -81,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // hero image at top of modal
         const hero = document.createElement('img');
         hero.className = 'modal-hero';
-        hero.src = project.image || '';
+        hero.src = normalizePath(project.image) || '';
         hero.alt = project.name || 'project image';
         hero.loading = 'lazy';
         hero.onerror = () => { hero.style.display = 'none'; };
