@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "name": "The Crypt",
+    "short-description": "Een videogame voor de CMGT arcadekast over accessibility.",
+    "long-description": "The Crypt is een 2D platformgame ontwikkeld voor de CMGT arcadekast, met als doel bewustwording te creëren over toegankelijkheid in games. Spelers navigeren door verschillende levels, waarbij ze obstakels tegenkomen waar ze alleen met teamwork langs kunnen komen. Het spel benadrukt het belang van inclusiviteit in game-ontwerp en moedigt spelers aan om na te denken over hoe games toegankelijker kunnen worden gemaakt voor iedereen. Tijdens dit project heb ik mij vooral gericht op animaties en gebruikersinteracties om het spelgevoel te verbeteren.",
+    "link": "https://github.com/BoorZuur/CLE4-Game",
+    "image": "/public/images/projects/crypt.png",
+    "classification": "School"
+  },
+  {
+    "id": 2,
+    "name": "LeafLink",
+    "short-description": "Een applicatie voor uitwonende studenten voor het vergroenen van hun kamer.",
+    "long-description": "LeafLink is een innovatieve applicatie ontworpen voor uitwonende studenten die hun leefruimte willen vergroenen. De applicatie biedt een gebruiksvriendelijke interface waarmee studenten gemakkelijk planten kunnen vinden die passen bij hun kameromstandigheden, zoals lichtinval en ruimte. Daarnaast bevat LeafLink verzorgingstips, herinneringen voor water geven, en een helpende tamagotchi-functie. Met LeafLink wordt het eenvoudiger dan ooit om een gezonde en groene leefomgeving te creëren, zelfs in een druk studentenleven.",
+    "link": "https://github.com/TrevinoRizkySunarja/TLE-ProjectLeafLink",
+    "image": "/public/images/projects/leaflink.png",
+    "classification": "School"
+  },
+  {
+    "id": 3,
+    "name": "WandelWild",
+    "short-description": "Een applicatie voor Natuurmonumenten.",
+    "long-description": "WandelWild is een innovatieve applicatie ontwikkeld voor Natuurmonumenten, gericht op het verbeteren van de wandelervaring in natuurgebieden voor jongen van 12 tot 14 jaar. De app biedt een actief rollenspel, gedetailleerde wandelroutes en informatie over flora en fauna die je onderweg kunt tegenkomen. Daarnaast bevat WandelWild educatieve elementen zoals vragen en teken-of-fotouitdagingen om gebruikers te betrekken bij de natuur en hen aan te moedigen meer te leren over hun omgeving. Met deze app willen we wandelaars inspireren om de natuur op een bewuste en respectvolle manier te verkennen.",
+    "link": "https://github.com/qixel2003/TLE2",
+    "image": "/public/images/projects/wandelwild.png",
+    "classification": "School"
+  }
+]
