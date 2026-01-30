@@ -30,7 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
         article.setAttribute('role', 'button');
         article.setAttribute('aria-pressed', 'false');
 
+        // hero image sits at the top of the card
         const img = document.createElement('img');
+        img.className = 'card-hero';
         img.src = project.image || '';
         img.alt = project.name || 'project image';
         img.loading = 'lazy';
@@ -76,6 +78,18 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.setAttribute('aria-modal', 'true');
         modal.setAttribute('aria-label', project.name || 'Project details');
 
+        // hero image at top of modal
+        const hero = document.createElement('img');
+        hero.className = 'modal-hero';
+        hero.src = project.image || '';
+        hero.alt = project.name || 'project image';
+        hero.loading = 'lazy';
+        hero.onerror = () => { hero.style.display = 'none'; };
+
+        // modal body (scrollable vertically if needed)
+        const body = document.createElement('div');
+        body.className = 'modal-body';
+
         const header = document.createElement('header');
 
         const h2 = document.createElement('h2');
@@ -104,25 +118,30 @@ document.addEventListener('DOMContentLoaded', () => {
         link.href = project.link || '#';
         link.target = '_blank';
         link.rel = 'noopener noreferrer';
-        link.textContent = 'View on GitHub';
+        link.textContent = 'Bekijk op GitHub';
 
         const classification = document.createElement('div');
         classification.className = 'classification';
-        classification.textContent = project.classification ? `Classification: ${project.classification}` : '';
+        classification.textContent = project.classification ? `${project.classification} project` : '';
 
         metaRow.appendChild(link);
         metaRow.appendChild(classification);
 
-        modal.appendChild(header);
-        modal.appendChild(content);
-        modal.appendChild(metaRow);
+        body.appendChild(header);
+        body.appendChild(content);
+        body.appendChild(metaRow);
 
+        // assemble modal: hero first, then body
+        modal.appendChild(hero);
+        modal.appendChild(body);
         overlay.appendChild(modal);
         document.body.appendChild(overlay);
 
+        // disable background scroll
         const prevOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
 
+        // close handlers
         function onOverlayClick(e) {
             if (e.target === overlay) closeModal();
         }
@@ -132,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.addEventListener('click', onOverlayClick);
         document.addEventListener('keydown', onKey);
 
+        // focus management
         closeBtn.focus();
 
         function closeModal() {

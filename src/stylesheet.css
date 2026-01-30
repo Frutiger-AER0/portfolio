@@ -1,3 +1,5 @@
+/* src/stylesheet.css */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -8,6 +10,10 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+}
+
+html, body {
+    overflow-x: hidden;
 }
 
 #home {
@@ -97,7 +103,7 @@ li {
     margin-bottom: 10px;
 }
 
-/* visibility helpers */
+/* visibility helpers and section entrance animation */
 .hidden {
     display: none !important;
 }
@@ -107,6 +113,257 @@ li {
     animation: fadeInDown 360ms ease both;
 }
 
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .visible {
+        animation: none;
+    }
+}
+
+/* ---------- Projects: grid layout + card styles + modal ---------- */
+
+/* responsive grid for project cards: default 3 columns */
+#project-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: start;
+    padding: 8px 0;
+}
+
+/* ensure cards fill their grid cell and keep consistent spacing
+   make image act as a header attached to the top of the card */
+.project-card {
+    background: #2b2b2b;
+    border-radius: 10px;
+    padding: 0; /* image will sit flush to the top */
+    margin: 0; /* grid gap controls spacing */
+    display: flex;
+    flex-direction: column; /* stack image then meta */
+    cursor: pointer;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    height: 100%;
+    overflow: hidden; /* keep the image clipped to rounded corners */
+}
+
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
+
+/* card header image (full width) */
+.project-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    background: #111;
+    border: 0;
+    border-radius: 0; /* card has own radius; overflow clips image */
+}
+
+/* meta area below image */
+.project-card .meta {
+    padding: 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-width: 0; /* prevents overflowing text in flex children */
+}
+
+.project-card h3 {
+    margin: 0 0 6px 0;
+    font-size: 1.05rem;
+    color: #00bcd4;
+}
+
+.project-card p {
+    margin: 0;
+    color: #ddd;
+    font-size: 0.95rem;
+    word-wrap: break-word;
+}
+
+/* modal overlay and modal (narrower), prevent horizontal scroll */
+.project-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: overlayFade 160ms ease;
+    overflow-x: hidden; /* explicit */
+    overflow-y: auto;   /* vertical scroll when needed */
+    -webkit-overflow-scrolling: touch;
+    padding: 20px; /* ensure there's room on small screens */
+    box-sizing: border-box;
+    overflow-x: hidden; /* prevent parent horizontal scroll */
+}
+
+/* modal container */
+.project-modal {
+    width: 100%;
+    max-width: 720px;
+    max-height: calc(100vh - 80px);
+    margin: 0 auto;
+    overflow-x: hidden; /* hide horizontal overflow; vertical scroll inside body */
+    background: #222;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+    animation: modalPop 240ms cubic-bezier(.2,.8,.2,1);
+    color: #eee;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-modal, .project-modal * {
+    box-sizing: border-box;
+}
+
+/* hero image inside modal (attached to top) */
+.project-modal .modal-hero {
+    width: 100%;
+    max-width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* body area inside modal with its own scrolling if needed */
+.project-modal .modal-body {
+    padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - 80px - 240px); /* account for hero height */
+    box-sizing: border-box;
+}
+
+/* header inside modal body */
+.project-modal .modal-body header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.project-modal .modal-body header h2 {
+    flex: 1 1 auto;   /* allow title to shrink */
+    min-width: 0;     /* critical to let text wrap instead of forcing width */
+    word-break: break-word;
+    margin: 0;
+}
+
+/* close button */
+.project-modal .close-btn {
+    background: transparent;
+    border: 1px solid #444;
+    color: #ddd;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    flex: 0 0 auto;
+    margin-left: 12px;
+}
+
+.project-modal .close-btn:focus {
+    outline: 2px solid #00bcd4;
+}
+
+.project-modal .content {
+    margin-top: 12px;
+    line-height: 1.5;
+    color: #ddd;
+    font-size: 0.95rem;
+    min-width: 0; /* prevents overflow in flex containers */
+    overflow-wrap: anywhere;
+}
+
+.project-modal .meta-row {
+    margin-top: 12px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.project-modal a.project-link {
+    color: #00bcd4;
+    text-decoration: none;
+    border: 1px solid transparent;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(0,188,212,0.06);
+}
+
+.project-modal .classification {
+    color: #bbb;
+    background: rgba(255,255,255,0.03);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+@keyframes overlayFade { from { opacity: 0 } to { opacity: 1 } }
+@keyframes modalPop { from { transform: translateY(-10px) scale(.99); opacity:0 } to { transform: translateY(0) scale(1); opacity:1 } }
+
+@media (prefers-reduced-motion: reduce) {
+    .project-modal, .project-modal-overlay { animation: none; }
+}
+
+/* ---------- Responsive breakpoints ---------- */
+
+/* two columns on medium screens */
+@media (max-width: 1024px) {
+    #project-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* single column on small screens; stack card content */
+@media (max-width: 640px) {
+    #project-list {
+        grid-template-columns: 1fr;
+    }
+
+    .project-card img {
+        height: 200px;
+    }
+
+    .project-modal .modal-hero {
+        height: 180px;
+    }
+
+    section {
+        padding: 30px 15px;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+}
+
+/* mobile adjustments for home/header/nav */
 @media (max-width: 768px) {
     #home {
         padding: 16px 0;
@@ -135,148 +392,7 @@ li {
         display: block;
         font-size: 1.1em;
     }
-
-    section {
-        padding: 30px 15px;
-    }
-
-    h2 {
-        font-size: 1.5em;
-    }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .visible {
-        animation: none;
-    }
-}
-
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.project-card {
-    background: #2b2b2b;
-    border-radius: 8px;
-    padding: 12px;
-    margin: 12px 0;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    cursor: pointer;
-    transition: transform 160ms ease, box-shadow 160ms ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-}
-.project-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-}
-.project-card img {
-    width: 96px;
-    height: 64px;
-    object-fit: cover;
-    border-radius: 6px;
-    flex-shrink: 0;
-    background: #111;
-}
-.project-card .meta {
-    flex: 1;
-}
-.project-card h3 {
-    margin: 0 0 6px 0;
-    font-size: 1.05rem;
-    color: #00bcd4;
-}
-.project-card p {
-    margin: 0;
-    color: #ddd;
-    font-size: 0.95rem;
-}
-
-/* modal */
-.project-modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    animation: overlayFade 160ms ease;
-}
-.project-modal {
-    width: min(920px, calc(100% - 48px));
-    max-height: calc(100vh - 80px);
-    overflow: auto;
-    background: #222;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-    animation: modalPop 240ms cubic-bezier(.2,.8,.2,1);
-    color: #eee;
-}
-.project-modal header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    gap: 12px;
-}
-.project-modal h2 {
-    margin: 0;
-    color: #00bcd4;
-    font-size: 1.4rem;
-}
-.project-modal .close-btn {
-    background: transparent;
-    border: 1px solid #444;
-    color: #ddd;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-.project-modal .close-btn:focus {
-    outline: 2px solid #00bcd4;
-}
-.project-modal .content {
-    margin-top: 12px;
-    line-height: 1.5;
-    color: #ddd;
-}
-.project-modal .meta-row {
-    margin-top: 12px;
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-.project-modal a.project-link {
-    color: #00bcd4;
-    text-decoration: none;
-    border: 1px solid transparent;
-    padding: 6px 10px;
-    border-radius: 6px;
-    background: rgba(0,188,212,0.06);
-}
-.project-modal .classification {
-    color: #bbb;
-    background: rgba(255,255,255,0.03);
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 0.95rem;
-}
-
-@keyframes overlayFade { from { opacity: 0 } to { opacity: 1 } }
-@keyframes modalPop { from { transform: translateY(-10px) scale(.99); opacity:0 } to { transform: translateY(0) scale(1); opacity:1 } }
-
-@media (prefers-reduced-motion: reduce) {
-    .project-modal, .project-modal-overlay { animation: none; }
-}
 
 
